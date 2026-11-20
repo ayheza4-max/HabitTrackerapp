@@ -6,15 +6,15 @@
   <title>My Habits – Weekly Habit Tracker</title>
   <meta name="description" content="A simple, private, offline-friendly weekly habit tracker you can install on your phone.">
 
-  <!-- Icons (Matching your generated files) -->
+  <!-- Icons -->
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
   <link rel="icon" type="image/png" href="favicon.png">
   <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
 
-  <!-- PWA Manifest (Changed to site.webmanifest) -->
+  <!-- PWA Manifest -->
   <link rel="manifest" href="site.webmanifest">
-  <meta name="theme-color" content="#3b82f6">
+  <meta name="theme-color" content="#3b82f6" id="theme-color-meta">
 
   <!-- iOS / Safari Meta Tags -->
   <meta name="mobile-web-app-capable" content="yes">
@@ -35,6 +35,7 @@
           <p class="subtitle">Track your weekly progress</p>
         </div>
         <div class="top-actions">
+          <button id="theme-toggle" class="theme-btn" aria-label="Toggle dark mode">🌙</button>
           <button id="install-btn" class="install-btn" hidden>Install</button>
           <button id="clear-btn" class="clear-btn">Clear All</button>
         </div>
