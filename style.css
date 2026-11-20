@@ -1,0 +1,455 @@
+/* =========================================================
+   My Habits – Weekly Habit Tracker
+   ========================================================= */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
+  min-height: 100vh;
+  padding: 40px 20px;
+  padding-bottom: calc(40px + env(safe-area-inset-bottom));
+  color: #333;
+}
+
+/* Screen-reader only helper */
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.app-wrapper {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.app-card {
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+}
+
+/* ===================== Top bar ===================== */
+.top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 25px;
+  border-bottom: 1px solid #f1f5f9;
+  padding-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.top-bar h1 {
+  font-size: 24px;
+  color: #1e293b;
+  margin-bottom: 4px;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: #64748b;
+}
+
+.top-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.install-btn {
+  padding: 10px 18px;
+  background: #3b82f6;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+}
+
+.install-btn:hover { background: #2563eb; }
+.install-btn:active { transform: scale(0.97); }
+
+.clear-btn {
+  padding: 10px 18px;
+  background: #fee2e2;
+  color: #ef4444;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.clear-btn:hover { background: #fecaca; }
+
+/* ===================== Controls ===================== */
+.controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.date-section {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #f8fafc;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  flex-wrap: wrap;
+}
+
+.date-section label {
+  font-size: 14px;
+  font-weight: bold;
+  color: #475569;
+}
+
+.date-section input {
+  border: none;
+  background: transparent;
+  font-size: 14px;
+  font-weight: bold;
+  color: #0f172a;
+  outline: none;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.week-nav {
+  width: 30px;
+  height: 30px;
+  border: 1px solid #e2e8f0;
+  background: #ffffff;
+  color: #475569;
+  border-radius: 6px;
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.week-nav:hover {
+  background: #eff6ff;
+  border-color: #bfdbfe;
+  color: #1d4ed8;
+}
+
+.today-btn {
+  padding: 6px 12px;
+  background: #eff6ff;
+  color: #1d4ed8;
+  border: 1px solid #bfdbfe;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.today-btn:hover { background: #dbeafe; }
+
+/* ===================== Add form ===================== */
+.add-form {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.add-form input {
+  padding: 12px 16px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 14px;
+  outline: none;
+  transition: border 0.2s, box-shadow 0.2s;
+}
+
+.add-form input:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+.add-btn {
+  padding: 12px 24px;
+  background: #3b82f6;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+}
+
+.add-btn:hover { background: #2563eb; }
+.add-btn:active { transform: scale(0.97); }
+
+/* ===================== Week summary ===================== */
+.summary {
+  margin-bottom: 18px;
+}
+
+.summary-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+
+.summary-label {
+  font-size: 14px;
+  color: #475569;
+}
+
+.summary-label strong {
+  color: #1e293b;
+  font-size: 16px;
+}
+
+.summary-range {
+  font-size: 12px;
+  color: #94a3b8;
+  font-weight: bold;
+}
+
+.summary-bar {
+  height: 10px;
+  width: 100%;
+  background: #f1f5f9;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.summary-fill {
+  height: 100%;
+  width: 0%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #60a5fa 0%, #22c55e 100%);
+  transition: width 0.35s ease;
+}
+
+/* ===================== Board ===================== */
+.table-container {
+  overflow-x: auto;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  -webkit-overflow-scrolling: touch;
+}
+
+.habit-board {
+  min-width: 900px;
+  background: #ffffff;
+}
+
+.board-row {
+  display: flex;
+  border-bottom: 1px solid #e2e8f0;
+  transition: background 0.15s;
+}
+
+.board-row:hover:not(.header-row) { background: #f8fafc; }
+.board-row:last-child { border-bottom: none; }
+
+.header-row {
+  background: #f1f5f9;
+  font-weight: bold;
+  color: #475569;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
+.habit-info-col {
+  flex: 2;
+  min-width: 220px;
+  padding: 16px 20px;
+  border-right: 1px solid #e2e8f0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.day-col {
+  flex: 1;
+  min-width: 80px;
+  padding: 12px 5px;
+  text-align: center;
+  border-right: 1px solid #e2e8f0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+}
+
+.day-col:last-child { border-right: none; }
+
+.date-text {
+  font-size: 12px;
+  font-weight: normal;
+  color: #94a3b8;
+  margin-top: 4px;
+  display: block;
+}
+
+.header-row .day-col.is-today {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.header-row .day-col.is-today .date-text { color: #2563eb; }
+
+/* ===================== Habit cell content ===================== */
+.habit-text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.habit-name {
+  font-size: 16px;
+  font-weight: bold;
+  color: #0f172a;
+  overflow-wrap: anywhere;
+}
+
+.habit-desc {
+  font-size: 13px;
+  color: #64748b;
+  overflow-wrap: anywhere;
+}
+
+.habit-stats {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 6px;
+  font-size: 11px;
+  font-weight: bold;
+}
+
+.habit-stats .week-count {
+  color: #3b82f6;
+  background: #eff6ff;
+  padding: 2px 8px;
+  border-radius: 999px;
+}
+
+.habit-stats .streak {
+  color: #ea580c;
+  background: #fff7ed;
+  padding: 2px 8px;
+  border-radius: 999px;
+}
+
+.del-btn {
+  background: transparent;
+  color: #cbd5e1;
+  border: none;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+
+.del-btn:hover {
+  color: #ef4444;
+  background: #fee2e2;
+}
+
+/* ===================== Status toggle ===================== */
+.status-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  user-select: none;
+  border: none;
+  transition: transform 0.15s, background 0.2s, color 0.2s;
+}
+
+.status-icon:hover { transform: scale(1.12); }
+.status-icon:active { transform: scale(0.94); }
+
+.status-icon.done {
+  background: #dcfce7;
+  color: #16a34a;
+}
+
+.status-icon.missed {
+  background: #f1f5f9;
+  color: #cbd5e1;
+}
+
+.status-icon.missed:hover {
+  background: #e2e8f0;
+  color: #94a3b8;
+}
+
+/* ===================== Empty state ===================== */
+.empty-msg {
+  text-align: center;
+  padding: 50px 20px;
+  color: #94a3b8;
+  font-size: 15px;
+}
+
+/* ===================== Responsive ===================== */
+@media (max-width: 768px) {
+  body { padding: 20px 12px calc(20px + env(safe-area-inset-bottom)); }
+
+  .app-card { padding: 20px 16px; border-radius: 14px; }
+
+  .top-bar { align-items: flex-start; }
+
+  .controls {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 14px;
+  }
+
+  .date-section { justify-content: space-between; }
+
+  .add-form { flex-direction: column; }
+  .add-form input,
+  .add-form .add-btn { width: 100%; }
+
+  .habit-info-col { min-width: 190px; padding: 14px 14px; }
+  .day-col { min-width: 66px; }
+
+  .install-btn, .clear-btn { padding: 9px 14px; font-size: 13px; }
+}

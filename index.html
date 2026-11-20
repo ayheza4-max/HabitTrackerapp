@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>My Habits – Weekly Habit Tracker</title>
+  <meta name="description" content="A simple, private, offline-friendly weekly habit tracker you can install on your phone.">
+
+  <!-- Icons -->
+  <link rel="icon" type="image/svg+xml" href="icons/icon.svg">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#3b82f6">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="My Habits">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-wrapper">
+    <div class="app-card">
+
+      <!-- ===== Header ===== -->
+      <header class="top-bar">
+        <div class="brand">
+          <h1>My Habits</h1>
+          <p class="subtitle">Track your weekly progress</p>
+        </div>
+        <div class="top-actions">
+          <button id="install-btn" class="install-btn" hidden>Install</button>
+          <button id="clear-btn" class="clear-btn">Clear All</button>
+        </div>
+      </header>
+
+      <!-- ===== Controls ===== -->
+      <div class="controls">
+        <div class="date-section">
+          <button id="prev-week" class="week-nav" aria-label="Previous week">&#8249;</button>
+          <label class="sr-only" for="date-picker">Select week</label>
+          <input type="date" id="date-picker">
+          <button id="next-week" class="week-nav" aria-label="Next week">&#8250;</button>
+          <button id="today-btn" class="today-btn" type="button">This Week</button>
+        </div>
+
+        <form id="add-form" class="add-form" autocomplete="off">
+          <input type="text" id="habit-name" placeholder="Habit name" maxlength="40" required>
+          <input type="text" id="habit-desc" placeholder="Description (optional)" maxlength="60">
+          <button type="submit" class="add-btn">+ Add</button>
+        </form>
+      </div>
+
+      <!-- ===== Week summary ===== -->
+      <div id="summary" class="summary"></div>
+
+      <!-- ===== Board ===== -->
+      <div class="table-container">
+        <div class="habit-board">
+          <div class="board-row header-row" id="header-row">
+            <div class="habit-info-col">Habit Details</div>
+          </div>
+          <div id="habits-container"></div>
+        </div>
+        <p id="empty-msg" class="empty-msg">Nothing here yet. Add a habit to get started!</p>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
