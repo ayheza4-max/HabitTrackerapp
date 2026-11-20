@@ -1,29 +1,27 @@
 /* =========================================================
    My Habits – Service Worker
-   Strategy:
-   - Navigations: network-first, fall back to cached index.html
-   - Static assets: cache-first, then network (and cache it)
    ========================================================= */
 
-const CACHE_NAME = 'my-habits-v1';
+const CACHE_NAME = 'my-habits-v2';
 
 const PRECACHE_ASSETS = [
   './',
   './index.html',
   './style.css',
   './script.js',
-  './manifest.json',
-  './icons/icon.svg',
-  './icons/icon-192.png',
-  './icons/icon-512.png',
-  './icons/icon-maskable-512.png'
+  './site.webmanifest',
+  './favicon.ico',
+  './favicon-96x96.png',
+  './favicon.png',
+  './apple-touch-icon.png',
+  './web-app-manifest-192x192.png',
+  './web-app-manifest-512x512.png'
 ];
 
 /* ---------- Install ---------- */
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) =>
-      // Add each asset separately so a single missing file can't break install
       Promise.all(
         PRECACHE_ASSETS.map((url) =>
           cache.add(url).catch(() => null)
@@ -50,11 +48,10 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
   const request = event.request;
 
-  // Only handle GET requests over http(s)
   if (request.method !== 'GET') return;
   if (!request.url.startsWith('http')) return;
 
-  // Navigation requests → network first, offline fallback to cached shell
+  // Navigation requests -> network first, fallback to cache
   if (request.mode === 'navigate') {
     event.respondWith(
       fetch(request)
@@ -70,14 +67,13 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // Other assets → cache first, then network
+  // Static assets -> cache first
   event.respondWith(
     caches.match(request).then((cached) => {
       if (cached) return cached;
 
       return fetch(request)
         .then((response) => {
-          // Only cache successful same-origin responses
           if (
             response &&
             response.status === 200 &&
