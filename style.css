@@ -10,15 +10,59 @@
   -webkit-tap-highlight-color: transparent;
 }
 
+/* --- Light Theme (Default) --- */
+:root {
+  --bg-gradient: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
+  --card-bg: #ffffff;
+  --text-main: #1e293b;
+  --text-muted: #64748b;
+  --border-color: #e2e8f0;
+  --hover-bg: #f8fafc;
+  --header-bg: #f1f5f9;
+  --input-bg: #ffffff;
+  --input-border: #cbd5e1;
+  
+  --status-missed-bg: #f1f5f9;
+  --status-missed-color: #cbd5e1;
+  --status-done-bg: #dcfce7;
+  --status-done-color: #16a34a;
+  
+  --summary-bar-bg: #f1f5f9;
+  --today-highlight: #dbeafe;
+  --today-color: #1d4ed8;
+}
+
+/* --- Dark Theme --- */
+[data-theme="dark"] {
+  --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+  --card-bg: #1e293b;
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --border-color: #334155;
+  --hover-bg: #334155;
+  --header-bg: #0f172a;
+  --input-bg: #0f172a;
+  --input-border: #475569;
+  
+  --status-missed-bg: #334155;
+  --status-missed-color: #64748b;
+  --status-done-bg: #064e3b;
+  --status-done-color: #10b981;
+  
+  --summary-bar-bg: #334155;
+  --today-highlight: #1e3a8a;
+  --today-color: #93c5fd;
+}
+
 body {
-  background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
+  background: var(--bg-gradient);
   min-height: 100vh;
   padding: 40px 20px;
   padding-bottom: calc(40px + env(safe-area-inset-bottom));
-  color: #333;
+  color: var(--text-main);
+  transition: background 0.3s ease, color 0.3s ease;
 }
 
-/* Screen-reader only helper */
 .sr-only {
   position: absolute;
   width: 1px; height: 1px;
@@ -35,10 +79,11 @@ body {
 }
 
 .app-card {
-  background: #ffffff;
+  background: var(--card-bg);
   border-radius: 16px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
   padding: 30px;
+  transition: background 0.3s ease;
 }
 
 /* ===================== Top bar ===================== */
@@ -48,20 +93,21 @@ body {
   align-items: center;
   gap: 16px;
   margin-bottom: 25px;
-  border-bottom: 1px solid #f1f5f9;
+  border-bottom: 1px solid var(--border-color);
   padding-bottom: 20px;
   flex-wrap: wrap;
 }
 
 .top-bar h1 {
   font-size: 24px;
-  color: #1e293b;
+  color: var(--text-main);
   margin-bottom: 4px;
+  transition: color 0.3s;
 }
 
 .subtitle {
   font-size: 14px;
-  color: #64748b;
+  color: var(--text-muted);
 }
 
 .top-actions {
@@ -69,6 +115,22 @@ body {
   align-items: center;
   gap: 10px;
 }
+
+.theme-btn {
+  background: transparent;
+  border: 1px solid var(--border-color);
+  color: var(--text-main);
+  font-size: 18px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.theme-btn:hover { background: var(--hover-bg); }
 
 .install-btn {
   padding: 10px 18px;
@@ -113,17 +175,18 @@ body {
   display: flex;
   align-items: center;
   gap: 8px;
-  background: #f8fafc;
+  background: var(--hover-bg);
   padding: 8px 10px;
   border-radius: 8px;
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--border-color);
   flex-wrap: wrap;
+  transition: background 0.3s, border 0.3s;
 }
 
 .date-section label {
   font-size: 14px;
   font-weight: bold;
-  color: #475569;
+  color: var(--text-muted);
 }
 
 .date-section input {
@@ -131,18 +194,19 @@ body {
   background: transparent;
   font-size: 14px;
   font-weight: bold;
-  color: #0f172a;
+  color: var(--text-main);
   outline: none;
   cursor: pointer;
   padding: 4px;
+  color-scheme: light dark;
 }
 
 .week-nav {
   width: 30px;
   height: 30px;
-  border: 1px solid #e2e8f0;
-  background: #ffffff;
-  color: #475569;
+  border: 1px solid var(--border-color);
+  background: var(--card-bg);
+  color: var(--text-muted);
   border-radius: 6px;
   font-size: 18px;
   line-height: 1;
@@ -151,16 +215,15 @@ body {
 }
 
 .week-nav:hover {
-  background: #eff6ff;
-  border-color: #bfdbfe;
-  color: #1d4ed8;
+  background: var(--hover-bg);
+  color: var(--text-main);
 }
 
 .today-btn {
   padding: 6px 12px;
-  background: #eff6ff;
-  color: #1d4ed8;
-  border: 1px solid #bfdbfe;
+  background: var(--today-highlight);
+  color: var(--today-color);
+  border: 1px solid transparent;
   border-radius: 6px;
   font-size: 12px;
   font-weight: bold;
@@ -168,7 +231,7 @@ body {
   transition: all 0.2s;
 }
 
-.today-btn:hover { background: #dbeafe; }
+.today-btn:hover { opacity: 0.8; }
 
 /* ===================== Add form ===================== */
 .add-form {
@@ -179,7 +242,9 @@ body {
 
 .add-form input {
   padding: 12px 16px;
-  border: 1px solid #cbd5e1;
+  border: 1px solid var(--input-border);
+  background: var(--input-bg);
+  color: var(--text-main);
   border-radius: 8px;
   font-size: 14px;
   outline: none;
@@ -222,24 +287,24 @@ body {
 
 .summary-label {
   font-size: 14px;
-  color: #475569;
+  color: var(--text-muted);
 }
 
 .summary-label strong {
-  color: #1e293b;
+  color: var(--text-main);
   font-size: 16px;
 }
 
 .summary-range {
   font-size: 12px;
-  color: #94a3b8;
+  color: var(--text-muted);
   font-weight: bold;
 }
 
 .summary-bar {
   height: 10px;
   width: 100%;
-  background: #f1f5f9;
+  background: var(--summary-bar-bg);
   border-radius: 999px;
   overflow: hidden;
 }
@@ -256,28 +321,28 @@ body {
 .table-container {
   overflow-x: auto;
   border-radius: 12px;
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--border-color);
   -webkit-overflow-scrolling: touch;
 }
 
 .habit-board {
   min-width: 900px;
-  background: #ffffff;
+  background: var(--card-bg);
 }
 
 .board-row {
   display: flex;
-  border-bottom: 1px solid #e2e8f0;
+  border-bottom: 1px solid var(--border-color);
   transition: background 0.15s;
 }
 
-.board-row:hover:not(.header-row) { background: #f8fafc; }
+.board-row:hover:not(.header-row) { background: var(--hover-bg); }
 .board-row:last-child { border-bottom: none; }
 
 .header-row {
-  background: #f1f5f9;
+  background: var(--header-bg);
   font-weight: bold;
-  color: #475569;
+  color: var(--text-muted);
   position: sticky;
   top: 0;
   z-index: 2;
@@ -287,7 +352,7 @@ body {
   flex: 2;
   min-width: 220px;
   padding: 16px 20px;
-  border-right: 1px solid #e2e8f0;
+  border-right: 1px solid var(--border-color);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -299,7 +364,7 @@ body {
   min-width: 80px;
   padding: 12px 5px;
   text-align: center;
-  border-right: 1px solid #e2e8f0;
+  border-right: 1px solid var(--border-color);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -312,17 +377,17 @@ body {
 .date-text {
   font-size: 12px;
   font-weight: normal;
-  color: #94a3b8;
+  color: var(--text-muted);
   margin-top: 4px;
   display: block;
 }
 
 .header-row .day-col.is-today {
-  background: #dbeafe;
-  color: #1d4ed8;
+  background: var(--today-highlight);
+  color: var(--today-color);
 }
 
-.header-row .day-col.is-today .date-text { color: #2563eb; }
+.header-row .day-col.is-today .date-text { color: var(--today-color); }
 
 /* ===================== Habit cell content ===================== */
 .habit-text {
@@ -335,13 +400,13 @@ body {
 .habit-name {
   font-size: 16px;
   font-weight: bold;
-  color: #0f172a;
+  color: var(--text-main);
   overflow-wrap: anywhere;
 }
 
 .habit-desc {
   font-size: 13px;
-  color: #64748b;
+  color: var(--text-muted);
   overflow-wrap: anywhere;
 }
 
@@ -356,21 +421,21 @@ body {
 
 .habit-stats .week-count {
   color: #3b82f6;
-  background: #eff6ff;
+  background: rgba(59, 130, 246, 0.15);
   padding: 2px 8px;
   border-radius: 999px;
 }
 
 .habit-stats .streak {
   color: #ea580c;
-  background: #fff7ed;
+  background: rgba(234, 88, 12, 0.15);
   padding: 2px 8px;
   border-radius: 999px;
 }
 
 .del-btn {
   background: transparent;
-  color: #cbd5e1;
+  color: var(--text-muted);
   border: none;
   font-size: 18px;
   font-weight: bold;
@@ -406,25 +471,24 @@ body {
 .status-icon:active { transform: scale(0.94); }
 
 .status-icon.done {
-  background: #dcfce7;
-  color: #16a34a;
+  background: var(--status-done-bg);
+  color: var(--status-done-color);
 }
 
 .status-icon.missed {
-  background: #f1f5f9;
-  color: #cbd5e1;
+  background: var(--status-missed-bg);
+  color: var(--status-missed-color);
 }
 
 .status-icon.missed:hover {
-  background: #e2e8f0;
-  color: #94a3b8;
+  opacity: 0.8;
 }
 
 /* ===================== Empty state ===================== */
 .empty-msg {
   text-align: center;
   padding: 50px 20px;
-  color: #94a3b8;
+  color: var(--text-muted);
   font-size: 15px;
 }
 
