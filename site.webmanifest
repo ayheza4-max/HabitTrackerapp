@@ -1,5 +1,5 @@
 {
-  "name": "My Habits – Weekly Habit Tracker",
+  "name": "Weekly Habit Tracker",
   "short_name": "My Habits",
   "description": "A simple, private, offline-friendly weekly habit tracker you can install on your phone.",
   "start_url": "./index.html",
