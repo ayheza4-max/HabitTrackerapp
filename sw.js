@@ -1,8 +1,8 @@
 /* =========================================================
-   My Habits – Service Worker
+   My Habits – Service Worker (Updated for Dark Mode)
    ========================================================= */
 
-const CACHE_NAME = 'my-habits-v2';
+const CACHE_NAME = 'my-habits-v3'; // Bumped to v3!
 
 const PRECACHE_ASSETS = [
   './',
