@@ -1,8 +1,3 @@
-/* =========================================================
-   My Habits – Weekly Habit Tracker
-   Vanilla JavaScript. Data is saved in localStorage.
-   ========================================================= */
-
 'use strict';
 
 /* ---------------------------------------------------------
@@ -44,8 +39,6 @@ const MONTH_NAMES = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Se
 /* ---------------------------------------------------------
    Helpers
    --------------------------------------------------------- */
-
-/** Returns a YYYY-MM-DD key for a date object. */
 function getDateKey(date) {
   const d = new Date(date);
   if (isNaN(d.getTime())) return 'invalid-date';
@@ -55,12 +48,10 @@ function getDateKey(date) {
   return `${year}-${month}-${day}`;
 }
 
-/** Today's key as YYYY-MM-DD. */
 function todayKey() {
   return getDateKey(new Date());
 }
 
-/** Persist habits to localStorage. */
 function saveData() {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(habits));
@@ -69,13 +60,11 @@ function saveData() {
   }
 }
 
-/** Returns an array of 7 Date objects (Sunday → Saturday) for the week containing baseDate. */
 function getWeekDates(baseDate) {
   let current = new Date(baseDate);
   if (isNaN(current.getTime())) current = new Date();
   current.setHours(0, 0, 0, 0);
-
-  current.setDate(current.getDate() - current.getDay()); // back to Sunday
+  current.setDate(current.getDate() - current.getDay());
 
   const dates = [];
   for (let i = 0; i < 7; i++) {
@@ -85,7 +74,6 @@ function getWeekDates(baseDate) {
   return dates;
 }
 
-/** Current consecutive-day streak for a habit (ends today, or yesterday if today not done). */
 function getStreak(habit) {
   const history = habit.history || {};
   const cursor = new Date();
@@ -106,10 +94,8 @@ function getStreak(habit) {
 /* ---------------------------------------------------------
    Rendering
    --------------------------------------------------------- */
-
 function renderHeader() {
   headerRow.innerHTML = '<div class="habit-info-col">Habit Details</div>';
-
   const weekDates = getWeekDates(selectedDate);
   const todaysKey = todayKey();
 
@@ -168,7 +154,6 @@ function renderHabits() {
     const row = document.createElement('div');
     row.className = 'board-row';
 
-    /* ---------- Habit info column ---------- */
     const infoCol = document.createElement('div');
     infoCol.className = 'habit-info-col';
 
@@ -183,7 +168,6 @@ function renderHabits() {
     descEl.className = 'habit-desc';
     descEl.textContent = habit.desc || 'No description';
 
-    /* Per-habit stats */
     let weekDone = 0;
     weekDates.forEach(date => {
       if (habit.history[getDateKey(date)] === true) weekDone++;
@@ -217,7 +201,6 @@ function renderHabits() {
     infoCol.appendChild(delBtn);
     row.appendChild(infoCol);
 
-    /* ---------- Day columns ---------- */
     weekDates.forEach(date => {
       const dateKey = getDateKey(date);
       const isDone  = habit.history[dateKey] === true;
@@ -245,9 +228,6 @@ function renderHabits() {
         renderAll();
       });
 
-      /* Subtle highlight for today's column */
-      if (dateKey === todaysKey) dayCol.style.background = '#fafcff';
-
       dayCol.appendChild(icon);
       row.appendChild(dayCol);
     });
@@ -265,13 +245,10 @@ function renderAll() {
 /* ---------------------------------------------------------
    Event handlers
    --------------------------------------------------------- */
-
 addForm.addEventListener('submit', (e) => {
   e.preventDefault();
-
   const nameInput = document.getElementById('habit-name');
   const descInput = document.getElementById('habit-desc');
-
   const name = nameInput.value.trim();
   const desc = descInput.value.trim();
 
@@ -285,7 +262,6 @@ addForm.addEventListener('submit', (e) => {
   nameInput.value = '';
   descInput.value = '';
   nameInput.focus();
-
   saveData();
   renderAll();
 });
@@ -331,29 +307,58 @@ todayBtn.addEventListener('click', () => {
 });
 
 /* ---------------------------------------------------------
+   Dark Mode / Light Mode Logic
+   --------------------------------------------------------- */
+const themeToggleBtn = document.getElementById('theme-toggle');
+const themeColorMeta = document.getElementById('theme-color-meta');
+
+function setTheme(theme) {
+  document.documentElement.setAttribute('data-theme', theme);
+  localStorage.setItem('theme', theme);
+  
+  if (theme === 'dark') {
+    themeToggleBtn.textContent = '☀️'; // Sun icon for light mode toggle
+    themeColorMeta.setAttribute('content', '#1e293b');
+  } else {
+    themeToggleBtn.textContent = '🌙'; // Moon icon for dark mode toggle
+    themeColorMeta.setAttribute('content', '#3b82f6');
+  }
+}
+
+// Check localStorage or system preference on load
+const savedTheme = localStorage.getItem('theme');
+const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+if (savedTheme) {
+  setTheme(savedTheme);
+} else if (systemPrefersDark) {
+  setTheme('dark');
+} else {
+  setTheme('light');
+}
+
+// Toggle button click event
+themeToggleBtn.addEventListener('click', () => {
+  const currentTheme = document.documentElement.getAttribute('data-theme');
+  const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+  setTheme(newTheme);
+});
+
+
+/* ---------------------------------------------------------
    Install (PWA) handling
    --------------------------------------------------------- */
 let deferredPrompt = null;
-
-const isStandalone =
-  window.matchMedia('(display-mode: standalone)').matches ||
-  window.navigator.standalone === true;
-
+const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
 const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
 
 if (isStandalone) {
   installBtn.hidden = true;
 } else if (isIOS) {
-  /* iOS Safari has no install prompt API — show manual instructions */
   installBtn.hidden = false;
   installBtn.textContent = 'Install';
   installBtn.addEventListener('click', () => {
-    alert(
-      'To install on iPhone / iPad:\n\n' +
-      '1. Tap the Share button (□↑) in Safari\n' +
-      '2. Scroll down and tap "Add to Home Screen"\n' +
-      '3. Tap "Add"'
-    );
+    alert('To install on iPhone / iPad:\n\n1. Tap the Share button (□↑) in Safari\n2. Scroll down and tap "Add to Home Screen"\n3. Tap "Add"');
   });
 } else {
   window.addEventListener('beforeinstallprompt', (e) => {
@@ -365,11 +370,7 @@ if (isStandalone) {
   installBtn.addEventListener('click', async () => {
     if (!deferredPrompt) return;
     deferredPrompt.prompt();
-    try {
-      await deferredPrompt.userChoice;
-    } catch (err) {
-      /* ignore */
-    }
+    try { await deferredPrompt.userChoice; } catch (err) {}
     deferredPrompt = null;
     installBtn.hidden = true;
   });
